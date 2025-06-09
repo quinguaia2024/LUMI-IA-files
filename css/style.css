@@ -1,3 +1,4 @@
+
         body {
             font-family: 'Rubik', sans-serif;
             overflow-x: hidden;
@@ -72,7 +73,7 @@
         .segmented-control input[type="radio"]:checked+label {
             background-color: rgb(83, 127, 170);
             color: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(165, 150, 150, 0.1);
         }
 
         .form-content {
@@ -122,11 +123,16 @@
         }
 
         .video-content h2 {
-            font-family: 'BentonSans Regular', Arial, sans-serif;
+            font-family: 'BentonSans Bold', Arial, sans-serif;
             color: #ffffff;
             margin: 0 0 15px;
             text-transform: uppercase;
-            font-size: 28px;
+            font-style: bold;
+            font-size: 36px;
+             animation: floatInOut 8s infinite ease-in-out;
+            opacity: 0;
+            transform: scale(0.5);
+            position: relative;
         }
 
         .word {
@@ -137,16 +143,22 @@
             animation: wordAppear 0.8s forwards;
         }
 
-        @keyframes wordAppear {
-            from {
+        @keyframes floatInOut {
+            0% {
                 opacity: 0;
-                transform: translateY(20px);
-                filter: blur(5px);
+                transform: scale(0.5) translateY(20px);
             }
-            to {
+            10% {
                 opacity: 1;
-                transform: translateY(0);
-                filter: blur(0);
+                transform: scale(1) translateY(0);
+            }
+            90% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translateY(-20px);
             }
         }
 
@@ -155,8 +167,8 @@
         }
 
         .input-field:focus {
-            border-color: rgb(83, 127, 170);
-            box-shadow: 0 0 0 2px rgba(83, 127, 170, 0.2);
+            border-color: rgb(147, 171, 195);
+            box-shadow: 0 0 0 3px rgba(83, 127, 170, 0.15);
         }
 
         .subtitle-text {
@@ -214,3 +226,34 @@
             justify-content: center;
             z-index: 10;
         }
+          .animated-text {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity 1s ease, transform 1s ease;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 2px solid #fff;
+    }
+
+    .animated-text.show {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    @keyframes blinkCaret {
+        0%, 100% { border-color: transparent; }
+        50% { border-color: white; }
+    }
+
+    .typing-effect {
+        width: 0;
+        display: inline-block;
+        animation: typing 4s steps(20, end) forwards, blinkCaret 0.8s step-end infinite;
+        overflow: hidden;
+        white-space: nowrap;
+    }
