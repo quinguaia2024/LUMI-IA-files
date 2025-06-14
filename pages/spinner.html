@@ -1,180 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUMI IA</title>
-    <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="../css/spinner.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
-        body {
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #000; /* Padrão preto para desktop */
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Padrão para desktop */
-            object-position: center;
-        }
-
-        /* Responsividade para diferentes tamanhos de tela */
-        
-        /* Para smartphones em retrato */
-        @media screen and (max-width: 480px) and (orientation: portrait) {
-            body {
-                background-color: white; /* Fundo branco para mobile */
-            }
-            
-            .video-container {
-                background-color: white;
-                padding: 10px; /* Pequeno padding opcional */
-            }
-            
-            video {
-                object-fit: contain; /* Mostra o vídeo completo sem cortes */
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100vh;
-            }
-        }
-
-        /* Para smartphones em paisagem */
-        @media screen and (max-width: 768px) and (orientation: landscape) {
-            body {
-                background-color: white;
-            }
-            
-            .video-container {
-                background-color: white;
-                padding: 10px;
-            }
-            
-            video {
-                object-fit: contain;
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100vh;
-            }
-        }
-
-        /* Para tablets em retrato */
-        @media screen and (min-width: 481px) and (max-width: 768px) and (orientation: portrait) {
-            body {
-                background-color: white; /* Fundo branco para tablets */
-            }
-            
-            .video-container {
-                background-color: white;
-                padding: 15px;
-            }
-            
-            video {
-                object-fit: contain; /* Vídeo completo sem cortes */
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100vh;
-            }
-        }
-
-        /* Para tablets em paisagem */
-        @media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
-            body {
-                background-color: white;
-            }
-            
-            .video-container {
-                background-color: white;
-                padding: 15px;
-            }
-            
-            video {
-                object-fit: contain;
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100vh;
-            }
-        }
-
-        /* Para desktops pequenos */
-        @media screen and (min-width: 1025px) and (max-width: 1366px) {
-            video {
-                object-fit: cover;
-                width: 100%;
-                height: 100vh;
-            }
-        }
-
-        /* Para desktops grandes */
-        @media screen and (min-width: 1367px) {
-            video {
-                object-fit: cover;
-                width: 100%;
-                height: 100vh;
-            }
-        }
-
-        /* Para telas ultra-wide */
-        @media screen and (min-aspect-ratio: 21/9) {
-            video {
-                object-fit: cover;
-                width: 100%;
-                height: 100vh;
-            }
-        }
-
-        /* Para dispositivos com tela muito alta (smartphones modernos) */
-        @media screen and (max-width: 480px) and (min-aspect-ratio: 1/2) {
-            video {
-                object-fit: contain;
-                width: 100%;
-                max-height: 100vh;
-            }
-        }
-
-        /* Ajustes para orientação específicos */
-        @media screen and (orientation: landscape) and (max-height: 500px) {
-            video {
-                object-fit: cover;
-                width: 100vw;
-                height: 100vh;
-            }
-        }
-
-        /* Fallback para garantir que sempre ocupe toda a tela */
-        @supports not (object-fit: cover) {
-            video {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    </style>
 </head>
-<body>
-    <div class="video-container">
-        <video src="../images/Video play/spinner.mp4" autoplay muted loop playsinline></video>
+
+<body class="bg-black overflow-hidden">
+    <!-- Vídeo de fundo -->
+    <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop>
+        <source src="../images/Video play/spinner.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
+    <!-- Overlay transparente -->
+    <div class="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
+
+    <!-- Conteúdo sobreposto -->
+    <div class="relative z-20 h-full flex flex-col items-center justify-center px-8">
+
+        <!-- Logo no canto superior esquerdo -->
+        <div class="absolute top-6 left-6 z-30 fade-in-up">
+            <h1 class="text-lg md:text-xl font-bold text-cyan-100 text-shadow-logo">
+                LUMI IA
+            </h1>
+        </div>
+
+        <!-- Texto Principal Cativante (Centralizado) -->
+        <div class="text-center max-w-4xl fade-in-up" style="margin-top: 20%; animation-delay: 0.5s;">
+
+            <p class="text-xl md:text-2xl font-semibold mb-6 text-cyan-200 text-shadow-strong">
+                Onde a inovação encontra a simplicidade
+            </p>
+
+            <!-- Texto typewriter -->
+            <div class="typewriter text-lg md:text-xl font-bold text-sky-300 text-shadow-strong mb-12">
+                Conectando você ao futuro da tecnologia inteligente...
+            </div>
+        </div>
+
+        <!-- Spinner e Status (Posição Central) -->
+        <div class="text-center fade-in-up" style="animation-delay: 1s; margin-top: 10px;margin-bottom: 180px;">
+    
+            <p class="text-xl font-bold mb-6 text-cyan-200 text-shadow-strong">
+                Preparando sua experiência exclusiva
+            </p>
+        </div>
     </div>
-    <script src="../js/spinner.js"></script>  
+    <script>
+        // Redirecionamento automático após 7 segundos
+        setTimeout(function () {
+            window.location.href = 'dashboard.html'; // Ajuste o caminho conforme necessário
+        }, 11000);
+
+        // Efeitos adicionais de JavaScript podem ser adicionados aqui
+        document.addEventListener('DOMContentLoaded', function () {
+            // Adicionar mais interatividade se necessário
+        });
+    </script>
 </body>
+
 </html>
