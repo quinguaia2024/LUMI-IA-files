@@ -180,22 +180,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Logout section styling */
-    .logout-section {
-      margin-top: 2rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .logout-link {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(185, 28, 28, 0.1) 100%);
-      border: 1px solid rgba(68, 219, 239, 0.5);
-    }
-
-    .logout-link:hover {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(185, 28, 28, 0.15) 100%);
-      border-color: rgba(68, 219, 239, 0.5);
-    }
       .logo {
       font-size: 28px;
       font-weight: 700;
@@ -236,7 +220,7 @@
     
     .search-input:focus {
       outline: none;
-      border-color: #3b82f6;
+      border-color:  rgba(83, 127, 170, 0.25);
       background: white;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
@@ -302,7 +286,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      border: 2px solid #3b82f6;
+      border: 2px solid rgba(80, 136, 192, 0.342);
       object-fit: cover;
     }
     
@@ -356,7 +340,7 @@
       justify-content: center;
       padding: 8px 16px;
       background: #e6f0fa;
-      color: #2e6ba7;
+      color: #81b3e409;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 500;
