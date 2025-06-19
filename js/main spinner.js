@@ -47,7 +47,7 @@
             
             // Função para redirecionar para a página spinner
             function redirectToSpinner() {
-                window.location.href = './pages/spinner.html';
+                window.location.href = './pages/dashboard.html';
             }
             
             // Event listener para o formulário de login
