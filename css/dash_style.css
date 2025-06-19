@@ -17,6 +17,10 @@
       max-width: 100%;
       height: auto;
     }
+     .sidebar {
+    background: linear-gradient(180deg, #2D8CC0 0%, #1E5B8D 100%);
+   
+    }
 
     .dropdown {
       position: relative;
