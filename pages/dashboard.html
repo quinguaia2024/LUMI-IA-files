@@ -60,8 +60,8 @@
 
         .preloader {
             position: fixed;
-            left: 0px;
-            top: 0px;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
             z-index: 999999;
@@ -408,25 +408,26 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 16px;
         }
 
         .welcome-section {
-            margin-bottom: 32px;
+            margin-bottom: 16px;
         }
 
         .welcome-section h1 {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: #1f2937;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .welcome-section p {
             color: #6b7280;
+            font-size: 0.875rem;
         }
 
         .first-row,
@@ -434,7 +435,7 @@
         .fourth-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
+            gap: 16px;
             width: 100%;
         }
 
@@ -444,23 +445,31 @@
 
         .operations-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
         }
 
         .operation-card {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 16px;
             text-align: center;
             transition: all 0.2s;
+            font-size: 0.75rem;
         }
 
         .operation-card:hover {
             background: #f1f5f9;
             border-color: #cbd5e1;
             transform: translateY(-2px);
+        }
+
+        .operation-card div {
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .patrimonio-chart {
@@ -551,11 +560,17 @@
 
         @media (max-width: 640px) {
             .container {
-                padding: 16px;
+                padding: 12px;
             }
 
             .operations-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 8px;
+            }
+
+            .operation-card {
+                padding: 12px;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -742,27 +757,27 @@
             </div>
             <div class="second-row">
                 <div class="card fade-in-up" style="padding: 24px;">
-                    <h3 style="font-size: 1.125rem; font-weight: 700; color: #1f2937; margin-bottom: 24px;">Operações Frequentes</h3>
+                    <h3 style="font-size: 1.125rem; font-weight: 700; color: #1f2937; margin-bottom: 16px;">Operações Frequentes</h3>
                     <div class="operations-grid">
                         <div class="operation-card">
-                            <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 8px;">AFRICELL, SA</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">01</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">956230776</div>
+                            <div style="color: #0ea5e9; font-weight: 600;">AFRICELL, SA</div>
+                            <div>01</div>
+                            <div>956230776</div>
                         </div>
                         <div class="operation-card">
-                            <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 8px;">Envio de transferência ...</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">MANUEL MATEUS CARDOSO QUINGU..</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">931344682</div>
+                            <div style="color: #0ea5e9; font-weight: 600;">Envio de transferência...</div>
+                            <div>MANUEL MATEUS...</div>
+                            <div>931344682</div>
                         </div>
                         <div class="operation-card">
-                            <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 8px;">ZAP</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">01</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">127358619</div>
+                            <div style="color: #0ea5e9; font-weight: 600;">ZAP</div>
+                            <div>01</div>
+                            <div>127358619</div>
                         </div>
                         <div class="operation-card">
-                            <div style="color: #0ea5e9; font-weight: 600; margin-bottom: 8px;">Transferências Mesmo ...</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">FLAVIO FELIX ANTONIO</div>
-                            <div style="font-size: 0.875rem; color: #6b7280;">A006 0040 0000 5305 1591 1015 3</div>
+                            <div style="color: #0ea5e9; font-weight: 600;">Transferências Mesmo...</div>
+                            <div>FLAVIO FELIX...</div>
+                            <div>A006 0040 0000...</div>
                         </div>
                     </div>
                 </div>
