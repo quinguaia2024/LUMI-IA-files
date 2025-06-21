@@ -429,21 +429,7 @@ template {
     margin-left: 58.333333%
 }
 
-.offset-8 {
-    margin-left: 66.666667%
-}
 
-.offset-9 {
-    margin-left: 75%
-}
-
-.offset-10 {
-    margin-left: 83.333333%
-}
-
-.offset-11 {
-    margin-left: 91.666667%
-}
 
 @media (min-width:576px) {
     .col-sm {
