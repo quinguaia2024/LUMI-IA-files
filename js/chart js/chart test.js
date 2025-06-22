@@ -245,13 +245,13 @@ var optionsLine = {
     }
   },
   series: [{
-    name: 'Lumi IA',
+    name: 'Decisão Humana',
     data: generateMinuteWiseTimeSeries(new Date("12/12/2016 00:20:00").getTime(), 12, {
       min: 30,
       max: 110
     })
   }, {
-    name: 'Decisão humana',
+    name: 'Lumi IA',
     data: generateMinuteWiseTimeSeries(new Date("12/12/2016 00:20:00").getTime(), 12, {
       min: 30,
       max: 110
