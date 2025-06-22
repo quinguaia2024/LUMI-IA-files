@@ -8,7 +8,7 @@ h1, h2, h3, h4, h5, h6, strong {
 }
 
 .box .apexcharts-xaxistooltip {
-  background: #769acc;
+  background: #8eb0cd58;
   color: #fff;
 }
 
@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5, h6, strong {
 }
 
 .box {
-  background-color:#70acff;
+  background-color:#8eb0cd58;
   padding: 25px 25px;
   border-radius: 4px;
 }  

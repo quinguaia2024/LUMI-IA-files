@@ -1,6 +1,6 @@
 window.Apex = {
   chart: {
-    foreColor: '#fff',
+    foreColor: '#000000', // Mudado para preto
     toolbar: {
       show: false
     },
@@ -21,6 +21,21 @@ window.Apex = {
     },
     axisBorder: {
       color: "#333"
+    },
+    labels: {
+      style: {
+        colors: '#000000' // Labels dos eixos em preto
+      }
+    }
+  },
+  yaxis: {
+    decimalsInFloat: 2,
+    opposite: true,
+    labels: {
+      offsetX: -10,
+      style: {
+        colors: '#000000' // Labels dos eixos em preto
+      }
     }
   },
   fill: {
@@ -30,18 +45,16 @@ window.Apex = {
     },
   },
   tooltip: {
-    theme: 'dark',
+    theme: 'light', // Mudado para light para melhor contraste
     x: {
       formatter: function (val) {
         return moment(new Date(val)).format("HH:mm:ss")
       }
     }
   },
-  yaxis: {
-    decimalsInFloat: 2,
-    opposite: true,
+  legend: {
     labels: {
-      offsetX: -10
+      colors: '#000000' // Legendas em preto
     }
   }
 };
@@ -72,8 +85,6 @@ function generateMinuteWiseTimeSeries(baseval, count, yrange) {
   return series;
 }
 
-
-
 function getNewData(baseval, yrange) {
   var newTime = baseval + 300000;
   return {
@@ -86,6 +97,7 @@ var optionsColumn = {
   chart: {
     height: 350,
     type: 'bar',
+    foreColor: '#000000', // Texto preto para este gráfico específico
     animations: {
       enabled: false
     },
@@ -133,7 +145,9 @@ var optionsColumn = {
     text: 'Distribuição por valor',
     align: 'left',
     style: {
-      fontSize: '14px'
+      fontSize: '16px',
+      fontWeight: '500',
+      color: '#000000' // Título em preto
     }
   },
   subtitle: {
@@ -142,7 +156,8 @@ var optionsColumn = {
     align: 'right',
     offsetY: 0,
     style: {
-      fontSize: '22px'
+      fontSize: '22px',
+      color: '#000000' // Subtítulo em preto
     }
   },
   fill: {
@@ -159,14 +174,27 @@ var optionsColumn = {
   },
   xaxis: {
     type: 'datetime',
-    range: 2700000
+    range: 2700000,
+    labels: {
+      style: {
+        colors: '#000000' // Labels do eixo X em preto
+      }
+    }
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: '#000000' // Labels do eixo Y em preto
+      }
+    }
   },
   legend: {
-    show: true
+    show: true,
+    labels: {
+      colors: '#000000' // Legenda em preto
+    }
   },
 }
-
-
 
 var chartColumn = new ApexCharts(
   document.querySelector("#columnchart"),
@@ -179,6 +207,7 @@ var optionsLine = {
     height: 350,
     type: 'line',
     stacked: true,
+    foreColor: '#000000', // Texto preto para este gráfico específico
     animations: {
       enabled: true,
       easing: 'linear',
@@ -259,15 +288,28 @@ var optionsLine = {
   }],
   xaxis: {
     type: 'datetime',
-    range: 2700000
+    range: 2700000,
+    labels: {
+      style: {
+        colors: '#000000' // Labels do eixo X em preto
+      }
+    }
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: '#000000' // Labels do eixo Y em preto
+      }
+    }
   },
   title: {
     text: 'Performance',
     align: 'left',
+    margin: 30,
     style: {
-      fontSize: '14px',
-
-
+      fontSize: '16px',
+      fontWeight: '500',
+      color: '#000000' // Título em preto
     }
   },
   subtitle: {
@@ -276,7 +318,8 @@ var optionsLine = {
     align: 'right',
     offsetY: 0,
     style: {
-      fontSize: '22px'
+      fontSize: '22px',
+      color: '#000000' // Subtítulo em preto
     }
   },
   legend: {
@@ -288,7 +331,10 @@ var optionsLine = {
     },
     position: 'top',
     offsetY: -28,
-    offsetX: 60
+    offsetX: 60,
+    labels: {
+      colors: '#000000' // Legenda em preto
+    }
   },
 }
 
@@ -303,7 +349,8 @@ var optionsCircle = {
     type: 'radialBar',
     height: 320,
     offsetY: -30,
-    offsetX: 20
+    offsetX: 20,
+    foreColor: '#000000' // Texto preto para este gráfico específico
   },
   plotOptions: {
     radialBar: {
@@ -321,8 +368,6 @@ var optionsCircle = {
         opacity: 1,
         margin: 3, // margin is in pixels
       },
-
-
     },
   },
   series: [71, 63],
@@ -334,6 +379,9 @@ var optionsCircle = {
     offsetY: 10,
     formatter: function (val, opts) {
       return val + " - " + opts.w.globals.series[opts.seriesIndex] + '%'
+    },
+    labels: {
+      colors: '#000000' // Legenda em preto
     }
   },
   fill: {
@@ -358,6 +406,7 @@ var optionsProgress1 = {
     height: 70,
     type: 'bar',
     stacked: true,
+    foreColor: '#000000', // Texto preto para este gráfico específico
     sparkline: {
       enabled: true
     }
@@ -382,7 +431,12 @@ var optionsProgress1 = {
     floating: true,
     offsetX: -10,
     offsetY: 5,
-    text: 'Percentagem de Risco 1'
+    text: 'Percentagem de Risco 1',
+    style: {
+      fontSize: '14px',
+      fontWeight: '500',
+      color: '#000000' // Título em preto
+    }
   },
   subtitle: {
     floating: true,
@@ -390,7 +444,8 @@ var optionsProgress1 = {
     offsetY: 0,
     text: '44%',
     style: {
-      fontSize: '20px'
+      fontSize: '20px',
+      color: '#000000' // Subtítulo em preto
     }
   },
   tooltip: {
@@ -410,12 +465,12 @@ var optionsProgress1 = {
 var chartProgress1 = new ApexCharts(document.querySelector('#progress1'), optionsProgress1);
 chartProgress1.render();
 
-
 var optionsProgress2 = {
   chart: {
     height: 70,
     type: 'bar',
     stacked: true,
+    foreColor: '#000000', // Texto preto para este gráfico específico
     sparkline: {
       enabled: true
     }
@@ -441,8 +496,12 @@ var optionsProgress2 = {
     floating: true,
     offsetX: -10,
     offsetY: 5,
-    text: 'Percentagem de Risco 2'
-
+    text: 'Percentagem de Risco 2',
+    style: {
+      fontSize: '14px',
+      fontWeight: '500',
+      color: '#000000' // Título em preto
+    }
   },
   subtitle: {
     floating: true,
@@ -450,7 +509,8 @@ var optionsProgress2 = {
     offsetY: 0,
     text: '80%',
     style: {
-      fontSize: '20px'
+      fontSize: '20px',
+      color: '#000000' // Subtítulo em preto
     }
   },
   tooltip: {
@@ -474,12 +534,12 @@ var optionsProgress2 = {
 var chartProgress2 = new ApexCharts(document.querySelector('#progress2'), optionsProgress2);
 chartProgress2.render();
 
-
 var optionsProgress3 = {
   chart: {
     height: 70,
     type: 'bar',
     stacked: true,
+    foreColor: '#000000', // Texto preto para este gráfico específico
     sparkline: {
       enabled: true
     }
@@ -511,7 +571,12 @@ var optionsProgress3 = {
     floating: true,
     offsetX: -10,
     offsetY: 5,
-    text: 'Percentagem de Risco 3'
+    text: 'Percentagem de Risco 3',
+    style: {
+      fontSize: '14px',
+      fontWeight: '500',
+      color: '#000000' // Título em preto
+    }
   },
   subtitle: {
     floating: true,
@@ -519,7 +584,8 @@ var optionsProgress3 = {
     offsetY: 0,
     text: '74%',
     style: {
-      fontSize: '20px'
+      fontSize: '20px',
+      color: '#000000' // Subtítulo em preto
     }
   },
   tooltip: {
@@ -596,7 +662,5 @@ window.setInterval(function () {
       text: p3Data + "%"
     }
   })
-
-
 
 }, 3000);
