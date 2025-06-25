@@ -46,7 +46,7 @@
     <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../css/dash_style.css">
-     <link rel="stylesheet" href="../css/chart styles/chart.css">
+     <link rel="stylesheet" href="../css/chart styles/export chart.css">
 <link rel="stylesheet" href="../css/chart styles/bootstrap.css">
          <link
       href="https://fonts.googleapis.com/css?family=Montserrat"
@@ -56,6 +56,7 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="stylesheet" href="../css/Trasnfer style.css">
 </head>
 
 <body class="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
@@ -87,7 +88,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <a href="National transfer.html" class="dropdown-item">Nacional</a>
-                    <a href="Internacional transfer.html" class="dropdown-item">Internacional</a>
+                    <a href="International transfer.html" class="dropdown-item">Internacional</a>
                     <a href="Transfer history.html" class="dropdown-item">Histórico de transferências</a>
                 </div>
             </div>
@@ -201,51 +202,130 @@
         </div>
 
         <!-- Main Content -->
-
-          <div id="wrapper">
-      <div class="content-area">
-        <div class="container-fluid">
-          <div class="main">
-            <div class="row mt-4">
-              <div class="col-md-5">
-                <div class="box columnbox mt-4">
-                  <div id="columnchart"></div>
-                </div>
-              </div>
-              <div class="col-md-7">
-                <div class="box  mt-4">
-                  <div id="linechart"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-5">
-                <div class="box radialbox mt-4">
-                  <div id="circlechart"></div>
-                </div>
-              </div>
-              <div class="col-md-7">
-                <div class="box mt-4">
-                  <div class="mt-4">
-                    <div id="progress1"></div>
-                  </div>
-                  <div class="mt-4">
-                    <div id="progress2"></div>
-                  </div>
-                  <div class="mt-4">
-                    <div id="progress3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-            </div>
-          </div>
+           <div class="container">
+        <div class="header">
+            <div class="breadcrumb">Transferências</div>
+            <h1 class="title">Nacionais</h1>
+            
         </div>
-      </div>
-    </div>      
+
+        <div class="form-container">
+            <form id="transferForm">
+                <div class="section">
+                    <div class="section-title">Qual é a conta de origem?</div>
+                    <div class="account-info">
+                        <div class="account-number">234325693 10 001</div>
+                        <div class="account-balance">+ Kz 8.122,40</div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">Nome do Beneficiário</div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Insira o nome Completo" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Destinatário da transferência</div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Insira a Conta/IBAN de Destino" required>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Montanta a transferir</div>
+                    <div class="form-group">
+                        <input type="number" class="form-input" placeholder="Kz 0.00" step="1000" required>
+                    </div>
+                </div>
+
+             
+
+                  <div class="section">
+                        <div class="section-title">Data de envio</div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <select class="form-select" id="transfer-date" required>
+                                    <option value="2025-06-25">Hoje - 25 Jun 2025</option>
+                                    <option value="2025-06-26">Amanhã - 26 Jun 2025</option>
+                                    <option value="2025-06-27">27 Jun 2025</option>
+                                    <option value="2025-06-28">28 Jun 2025</option>
+                                    <option value="2025-06-29">29 Jun 2025</option>
+                                    <option value="2025-06-30">30 Jun 2025</option>
+                                </select>
+                                <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                                  <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                                  <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                                  <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Descritivo para Ordenante </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Insira o nome Completo" required>
+                        </div>
+                        
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Descritivo para o Beneficiário</div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Insira o descritivo" required>
+                        </div>
+                    </div>  
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-secondary">Limpar Informação</button>
+                    <button type="submit" class="btn btn-primary">Continuar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     </div>
    <script src="../js/efect load.js"></script>
     <script type="text/javascript">
@@ -325,9 +405,5 @@
             }
         }
     </script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
- <script src="../js/chart js/chart.js"></script>
-     <script src="../js/chart js/chart test.js"></script>
 </body>
 </html>

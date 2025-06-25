@@ -42,22 +42,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumi IA</title>
+    <title>Lumi IA - Transferências Nacionais</title>
     <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="../css/dash_style.css">
-     <link rel="stylesheet" href="../css/chart styles/chart.css">
-<link rel="stylesheet" href="../css/chart styles/bootstrap.css">
-         <link
-      href="https://fonts.googleapis.com/css?family=Montserrat"
-      rel="stylesheet"
-    />
-         <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-</head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <style>
 
+        .container {
+            max-width: calc(100% - 380px); /* 340px left margin + 20px right margin + sidebar width */
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container-wrapper {
+            margin: 20px;
+        }
+
+        .header {
+            background: #fff;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: #657786;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #537faa;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: #e0245e;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #537faa;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #537faa;
+            box-shadow: 0 0 0 2px rgba(83,127,170,0.2);
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #64748b;
+            box-shadow: 0 0 0 2px rgba(100,116,139,0.2);
+        }
+
+        .account-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border-left: 3px solid #537faa;
+        }
+
+        .account-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .account-balance {
+            font-size: 12px;
+            color: #537faa;
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #537faa;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #1a1a1a;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            border: 1px solid #537faa;
+            color: #537faa;
+        }
+
+        .btn-primary {
+            background: #537faa;
+            color: white;
+        }
+
+        .help-text {
+            font-size: 10px;
+            color: #657786;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                max-width: calc(100% - 20px);
+            }
+            .container-wrapper {
+                margin: 10px;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
 <body class="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
     <div class="preloader"></div>
     <!-- Sidebar -->
@@ -86,9 +241,9 @@
                     </svg>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="National transfer.html" class="dropdown-item">Nacional</a>
-                    <a href="Internacional transfer.html" class="dropdown-item">Internacional</a>
-                    <a href="Transfer history.html" class="dropdown-item">Histórico de transferências</a>
+                    <a href="#" class="dropdown-item">Nacional</a>
+                    <a href="#" class="dropdown-item">Internacional</a>
+                    <a href="#" class="dropdown-item">Histórico de transferências</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -104,7 +259,7 @@
                     <a href="#" class="dropdown-item">Histórico de Predições</a>
                 </div>
             </div>
-               <div class="dropdown">
+            <div class="dropdown">
                 <button class="dropdown-toggle" onclick="toggleDropdown(this)">
                     <span>Relatórios</span>
                     <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +303,7 @@
         </nav>
     </aside>
 
-    <div class="main-content lg:ml-80 min-h-screen">
+    <div class="main-content lg:ml-[340px] min-h-screen">
         <!-- Top Navigation Bar -->
         <header class="bg-white shadow-lg p-4 sticky top-0 z-30">
             <div class="header-nav flex items-center justify-end gap-3">
@@ -201,91 +356,108 @@
         </div>
 
         <!-- Main Content -->
-
-          <div id="wrapper">
-      <div class="content-area">
-        <div class="container-fluid">
-          <div class="main">
-            <div class="row mt-4">
-              <div class="col-md-5">
-                <div class="box columnbox mt-4">
-                  <div id="columnchart"></div>
+        <div class="container-wrapper">
+            <div class="container">
+                <div class="header">
+                    <div class="breadcrumb">Transferências</div>
+                    <h1 class="title">Nacionais</h1>
                 </div>
-              </div>
-              <div class="col-md-7">
-                <div class="box  mt-4">
-                  <div id="linechart"></div>
+                <div class="form-container">
+                    <form id="transferForm">
+                        <div class="section">
+                            <div class="section-title">Qual é a conta de origem?</div>
+                            <div class="account-info">
+                                <div class="account-number">234325693 10 001</div>
+                                <div class="account-balance">+ Kz 8.122,40</div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">Nome do Beneficiário</div>
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Insira o nome Completo" required>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">Destinatário da transferência</div>
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Insira a Conta/IBAN de Destino" required>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">Montante a transferir</div>
+                            <div class="form-group">
+                                <input type="number" class="form-input" placeholder="Kz 0.00" step="1000" required>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">Data de envio</div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <select class="form-select" id="transfer-date" required>
+                                        <option value="2025-06-24">24 Jun 2025</option>
+                                        <option value="2025-06-25">25 Jun 2025</option>
+                                        <option value="2025-06-26">26 Jun 2025</option>
+                                    </select>
+                                    <select class="form-select" id="transfer-time" required>
+                                        <option value="18:15">18:15</option>
+                                        <option value="18:16">18:16</option>
+                                        <option value="18:17">18:17</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">Como vai catalogar esta operação?</div>
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Insira o Descritivo para o Ordenante">
+                                <div class="help-text">Este descritivo ficará visível no seu extrato.</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Insira o Descritivo para o Beneficiário">
+                                <div class="help-text">Este descritivo ficará visível no comprovativo da transferência e no extrato do beneficiário.</div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button type="button" class="btn btn-secondary">Limpar Informação</button>
+                            <button type="submit" class="btn btn-primary">Continuar</button>
+                        </div>
+                    </form>
                 </div>
-              </div>
             </div>
-
-            <div class="row">
-              <div class="col-md-5">
-                <div class="box radialbox mt-4">
-                  <div id="circlechart"></div>
-                </div>
-              </div>
-              <div class="col-md-7">
-                <div class="box mt-4">
-                  <div class="mt-4">
-                    <div id="progress1"></div>
-                  </div>
-                  <div class="mt-4">
-                    <div id="progress2"></div>
-                  </div>
-                  <div class="mt-4">
-                    <div id="progress3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-            </div>
-          </div>
         </div>
-      </div>
-    </div>      
     </div>
-   <script src="../js/efect load.js"></script>
+
+    <script src="../js/efect load.js"></script>
     <script type="text/javascript">
         var gk_isXlsx = false;
         var gk_xlsxFileLookup = {};
         var gk_fileData = {};
         function filledCell(cell) {
-          return cell !== '' && cell != null;
+            return cell !== '' && cell != null;
         }
         function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                        headerRowIndex = 0;
+                    }
+                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
                 }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
             }
-        }
-        return gk_fileData[filename] || "";
+            return gk_fileData[filename] || "";
         }
 
         function toggleDropdown(button) {
@@ -324,10 +496,11 @@
                 document.body.classList.remove('dark-mode');
             }
         }
+
+        document.getElementById('transferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Formulário válido! Prosseguindo para o próximo passo...');
+        });
     </script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
- <script src="../js/chart js/chart.js"></script>
-     <script src="../js/chart js/chart test.js"></script>
 </body>
 </html>

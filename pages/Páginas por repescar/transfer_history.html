@@ -1,0 +1,622 @@
+<script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+        return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                    headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+    }
+</script>
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumi IA</title>
+    <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/dash_style.css">
+    <link rel="stylesheet" href="../css/chart styles/export chart.css">
+    <link rel="stylesheet" href="../css/chart styles/bootstrap.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+            * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: calc(100% - 380px);
+        /* 340px left margin + 20px right margin + sidebar width */
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container-wrapper {
+        margin: 20px;
+    }
+
+    .header {
+        background: #fff;
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e1e8ed;
+    }
+
+    .breadcrumb {
+        font-size: 12px;
+        color: #657786;
+        margin-bottom: 5px;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #537faa;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .form-group {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .form-select {
+        padding: 10px;
+        border: 1px solid #537faa;
+        border-radius: 4px;
+        background-color: #fff;
+        font-size: 14px;
+        min-width: 120px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .form-label.required::after {
+        content: ' *';
+        color: #e0245e;
+    }
+
+    .form-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #537faa;
+        border-radius: 4px;
+        font-size: 14px;
+        background: #fff;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #537faa;
+        box-shadow: 0 0 0 2px rgba(83, 127, 170, 0.2);
+    }
+
+    .form-select:focus {
+        outline: none;
+        border-color: #537faa;
+        box-shadow: 0 0 0 2px rgba(83, 127, 170, 0.2);
+    }
+
+    .account-info {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        border-left: 3px solid #537faa;
+    }
+
+    .account-number {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 5px;
+    }
+
+    .account-balance {
+        font-size: 12px;
+        color: #537faa;
+        font-weight: 600;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: flex-end;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #537faa;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        color: #1a1a1a;
+    }
+
+    .btn-secondary {
+        background: #f8f9fa;
+        border: 1px solid #537faa;
+        color: #537faa;
+    }
+
+    .btn-primary {
+        background: #537faa;
+        color: white;
+    }
+
+    .help-text {
+        font-size: 10px;
+        color: #657786;
+        margin-top: 5px;
+        flex-basis: 100%;
+    }
+
+    .form-group-with-help {
+        flex-direction: column;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            max-width: calc(100% - 20px);
+        }
+
+        .container-wrapper {
+            margin: 10px;
+        }
+
+        .buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group {
+            flex-direction: column;
+        }
+
+        .form-row {
+            flex-direction: column;
+        }
+    }
+    </style>
+</head>
+
+<body class="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
+    <div class="preloader"></div>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar w-80 h-screen fixed top-0 left-0 p-6 z-40">
+        <div class="logo-div"><img src="../images/icon/icon.jpg" class="mb-4"></div>
+        <nav class="sidebar-nav space-y-3">
+            <a href="dashboard.html" class="menu-item">Lumi IA</a>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Contas</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="analise IA.html" class="dropdown-item">Análise financeira</a>
+                    <a href="#" class="dropdown-item">Gestão de usuários</a>
+                    <a href="#" class="dropdown-item">Definições e preferências</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Transferências</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Nacional</a>
+                    <a href="#" class="dropdown-item">Internacional</a>
+                    <a href="#" class="dropdown-item">Histórico de transferências</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Transações</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Predição</a>
+                    <a href="#" class="dropdown-item">Saldo e transações</a>
+                    <a href="#" class="dropdown-item">Histórico de Predições</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Relatórios</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Relatório de finança</a>
+                    <a href="Export report.html" class="dropdown-item">Relatório de exportação</a>
+                    <a href="#" class="dropdown-item">Histórico de Relatórios</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6">
+                <h3 class="text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wider">Outras informações</h3>
+                <a href="/contacts" class="menu-item">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Contactos</span>
+                    </div>
+                </a>
+                <a href="/exchange" class="menu-item">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        <span>Câmbio</span>
+                    </div>
+                </a>
+                <a href="/locations" class="menu-item">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Onde estamos</span>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="main-content lg:ml-80 min-h-screen">
+        <!-- Top Navigation Bar -->
+        <header class="bg-white shadow-lg p-4 sticky top-0 z-30">
+            <div class="header-nav flex items-center justify-end gap-3">
+                <div class="search-container flex-1 max-w-md">
+                    <input type="text" placeholder="Pesquisar" class="search-input">
+                    <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <button class="btn-secondary p-2 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+                <div class="profile-section" onclick="toggleUserInfo()">
+                    <img src="../images/images profille/Profille.jpg" alt="Profile" class="profile-avatar">
+                    <div class="hidden sm:block">
+                        <div class="text-sm font-medium text-gray-700 dark:text-gray-200">Ludovina Quinguaia</div>
+                    </div>
+                </div>
+                <select class="btn-secondary p-2 flex items-center justify-center" onchange="toggleTheme(this.value)">
+                    <option value="light">Claro</option>
+                    <option value="dark">Escuro</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- User Info Panel -->
+        <div class="user-info-panel" id="userInfoPanel">
+            <div class="profile-header">
+                <img src="../images/images profille/Profille.jpg" alt="Profile">
+                <div>
+                    <h2>Ludovina Quinguaia</h2>
+                    <a href="#">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        O Meu Perfil
+                    </a>
+                </div>
+            </div>
+            <div class="profile-details">
+                <div>1776316</div>
+                <div>Adesão Simples</div>
+                <button class="settings">Definições</button>
+            </div>
+            <div class="profile-actions">
+                <button class="validate">Entrar com Outra Adesão</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="header">
+                <div class="breadcrumb">Transferências</div>
+                <h1 class="title">Internacionais</h1>
+
+            </div>
+
+            <div class="form-container">
+                <form id="transferForm">
+                    <div class="section">
+                        <div class="section-title">Qual é a conta de origem?</div>
+                        <div class="account-info">
+                            <div class="account-number">234325693 10 001</div>
+                            <div class="account-balance">+ Kz 8.122,40</div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Nome do Beneficiário</div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Insira o nome Completo" required>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Destinatário da transferência</div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Insira a Conta/IBAN de Destino" required>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Montante a transferir</div>
+                        <div class="form-group">
+                            <input type="number" class="form-input" placeholder="0.00" step="1000" required>
+                            <select class="form-select" id="currency" required>
+                                <option value="AOA">AOA (Kwanza)</option>
+                                <option value="USD">USD (Dólar)</option>
+                                <option value="EUR">EUR (Euro)</option>
+                                <option value="GBP">GBP (Libra)</option>
+                                <option value="BRL">BRL (Real)</option>
+                                <option value="ZAR">ZAR (Rand)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Data de envio</div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <select class="form-select" id="transfer-date" required>
+                                    <option value="2025-06-25">Hoje - 25 Jun 2025</option>
+                                    <option value="2025-06-26">Amanhã - 26 Jun 2025</option>
+                                    <option value="2025-06-27">27 Jun 2025</option>
+                                    <option value="2025-06-28">28 Jun 2025</option>
+                                    <option value="2025-06-29">29 Jun 2025</option>
+                                    <option value="2025-06-30">30 Jun 2025</option>
+                                </select>
+                                <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                                  <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                                  <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                                  <select class="form-select" id="transfer-time" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Descritivo para Ordenante </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Insira o nome Completo" required>
+                        </div>
+                        
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Descritivo para o Beneficiário</div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Insira o descritivo" required>
+                        </div>
+                    </div>   
+
+                    <div class="buttons">
+                        <button type="button" class="btn btn-secondary">Limpar Informação</button>
+                        <button type="submit" class="btn btn-primary">Continuar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script src="../js/efect load.js"></script>
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+            return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+
+                    // Convert sheet to JSON to filter blank rows
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                    // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    // Fallback
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                        headerRowIndex = 0;
+                    }
+
+                    // Convert filtered JSON back to CSV
+                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
+                }
+            }
+            return gk_fileData[filename] || "";
+        }
+
+        function toggleDropdown(button) {
+            const dropdown = button.parentElement;
+            const isOpen = dropdown.classList.contains('open');
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+            if (!isOpen) {
+                dropdown.classList.add('open');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+            }
+        });
+
+        function toggleUserInfo() {
+            const userInfoPanel = document.getElementById('userInfoPanel');
+            userInfoPanel.classList.toggle('open');
+        }
+
+        document.addEventListener('click', function (event) {
+            const profileSection = document.querySelector('.profile-section');
+            const userInfoPanel = document.getElementById('userInfoPanel');
+            if (!profileSection.contains(event.target) && !userInfoPanel.contains(event.target)) {
+                userInfoPanel.classList.remove('open');
+            }
+        });
+
+        function toggleTheme(theme) {
+            document.body.className = 'flex flex-col lg:flex-row min-h-screen';
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+    </script>
+</body>
+
+</html>

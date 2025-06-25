@@ -46,7 +46,7 @@
     <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../css/dash_style.css">
-     <link rel="stylesheet" href="../css/chart styles/chart.css">
+     <link rel="stylesheet" href="../css/chart styles/export chart.css">
 <link rel="stylesheet" href="../css/chart styles/bootstrap.css">
          <link
       href="https://fonts.googleapis.com/css?family=Montserrat"
@@ -56,6 +56,161 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link rel="stylesheet" href="../css/Trasnfer style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: calc(100% - 380px); /* 340px left margin + 20px right margin + sidebar width */
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container-wrapper {
+            margin: 20px;
+        }
+
+        .header {
+            background: #fff;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: #657786;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .table-container {
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #537faa;
+            background: #f8f9fa;
+        }
+
+        .table td {
+            color: #333;
+        }
+
+        .status-pending {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .status-failed {
+            color: #e0245e;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #1a1a1a;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            border: 1px solid #537faa;
+            color: #537faa;
+        }
+
+        .btn-primary {
+            background: #537faa;
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #537faa;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #537faa;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #64748b;
+              -shadow: 0 0 0 2px rgba(100,116,139,0.2);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                max-width: calc(100% - 20px);
+            }
+            .container-wrapper {
+                margin: 10px;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .table {
+                font-size: 12px;
+            }
+            .table th, .table td {
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 
 <body class="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
@@ -87,7 +242,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <a href="National transfer.html" class="dropdown-item">Nacional</a>
-                    <a href="Internacional transfer.html" class="dropdown-item">Internacional</a>
+                    <a href="International transfer.html" class="dropdown-item">Internacional</a>
                     <a href="Transfer history.html" class="dropdown-item">Histórico de transferências</a>
                 </div>
             </div>
@@ -201,51 +356,75 @@
         </div>
 
         <!-- Main Content -->
-
-          <div id="wrapper">
-      <div class="content-area">
-        <div class="container-fluid">
-          <div class="main">
-            <div class="row mt-4">
-              <div class="col-md-5">
-                <div class="box columnbox mt-4">
-                  <div id="columnchart"></div>
+             <div class="container-wrapper">
+            <div class="container">
+                <div class="header">
+                    <div class="breadcrumb">Transferências</div>
+                    <h1 class="title">Histórico de Transferências</h1>
                 </div>
-              </div>
-              <div class="col-md-7">
-                <div class="box  mt-4">
-                  <div id="linechart"></div>
+                <div class="table-container">
+                    <div class="form-group">
+                        <select class="form-select" id="filter-status">
+                            <option value="all">Todos os Estados</option>
+                            <option value="completed">Concluído</option>
+                            <option value="pending">Pendente</option>
+                            <option value="failed">Falhou</option>
+                        </select>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Beneficiário</th>
+                                <th>Conta/IBAN</th>
+                                <th>Montante</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24 Jun 2025</td>
+                                <td>João Silva</td>
+                                <td>123456789 10 001</td>
+                                <td>Kz 5.000,00</td>
+                                <td class="status-completed">Concluído</td>
+                            </tr>
+                            <tr>
+                                <td>23 Jun 2025</td>
+                                <td>Maria Santos</td>
+                                <td>987654321 20 002</td>
+                                <td>Kz 2.500,00</td>
+                                <td class="status-pending">Pendente</td>
+                            </tr>
+                            <tr>
+                                <td>22 Jun 2025</td>
+                                <td>Pedro Almeida</td>
+                                <td>456789123 30 003</td>
+                                <td>Kz 10.000,00</td>
+                                <td class="status-failed">Falhou</td>
+                            </tr>
+                            <tr>
+                                <td>21 Jun 2025</td>
+                                <td>Ana Costa</td>
+                                <td>789123456 40 004</td>
+                                <td>Kz 3.200,00</td>
+                                <td class="status-completed">Concluído</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <button type="button" class="btn btn-secondary" onclick="exportToExcel()">Exportar para Excel</button>
+                        <button type="button" class="btn btn-primary">Atualizar</button>
+                    </div>
                 </div>
-              </div>
             </div>
-
-            <div class="row">
-              <div class="col-md-5">
-                <div class="box radialbox mt-4">
-                  <div id="circlechart"></div>
-                </div>
-              </div>
-              <div class="col-md-7">
-                <div class="box mt-4">
-                  <div class="mt-4">
-                    <div id="progress1"></div>
-                  </div>
-                  <div class="mt-4">
-                    <div id="progress2"></div>
-                  </div>
-                  <div class="mt-4">
-                    <div id="progress3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-            </div>
-          </div>
         </div>
-      </div>
-    </div>      
+                </div>
+            </div>
+            </form>
+        </div>
+
+
     </div>
    <script src="../js/efect load.js"></script>
     <script type="text/javascript">
@@ -325,9 +504,5 @@
             }
         }
     </script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
- <script src="../js/chart js/chart.js"></script>
-     <script src="../js/chart js/chart test.js"></script>
 </body>
 </html>

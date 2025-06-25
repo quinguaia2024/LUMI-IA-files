@@ -1,0 +1,188 @@
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: calc(100% - 380px);
+        /* 340px left margin + 20px right margin + sidebar width */
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container-wrapper {
+        margin: 20px;
+    }
+
+    .header {
+        background: #fff;
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e1e8ed;
+    }
+
+    .breadcrumb {
+        font-size: 12px;
+        color: #657786;
+        margin-bottom: 5px;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #537faa;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .form-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .form-select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        width: 100px;
+        /* Adjust as needed */
+    }
+
+    .form-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .form-label.required::after {
+        content: ' *';
+        color: #e0245e;
+    }
+
+    .form-input,
+    .form-select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #537faa;
+        border-radius: 4px;
+        font-size: 14px;
+        background: #fff;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #537faa;
+        box-shadow: 0 0 0 2px rgba(83, 127, 170, 0.2);
+    }
+
+    .form-select:focus {
+        outline: none;
+        border-color: #64748b;
+        box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.2);
+    }
+
+    .account-info {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        border-left: 3px solid #537faa;
+    }
+
+    .account-number {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 5px;
+    }
+
+    .account-balance {
+        font-size: 12px;
+        color: #537faa;
+        font-weight: 600;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: flex-end;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #537faa;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        color: #1a1a1a;
+    }
+
+    .btn-secondary {
+        background: #f8f9fa;
+        border: 1px solid #537faa;
+        color: #537faa;
+    }
+
+    .btn-primary {
+        background: #537faa;
+        color: white;
+    }
+
+    .help-text {
+        font-size: 10px;
+        color: #657786;
+        margin-top: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            max-width: calc(100% - 20px);
+        }
+
+        .container-wrapper {
+            margin: 10px;
+        }
+
+        .buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }

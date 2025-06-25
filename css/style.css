@@ -71,7 +71,7 @@
         }
 
         .segmented-control input[type="radio"]:checked+label {
-            background-color: rgb(83, 127, 170);
+            background-color: #537faa;
             color: white;
             box-shadow: 0 1px 3px rgba(165, 150, 150, 0.1);
         }
