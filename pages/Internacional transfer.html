@@ -1,43 +1,3 @@
-<script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-        return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                    headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-    }
-</script>
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -47,215 +7,12 @@
     <title>Lumi IA</title>
     <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../css/dash_style.css">
+   <link rel="stylesheet" href="../css/Dashboard style/dash_style.css">
+    <link rel="stylesheet" href="../css/Transfer style/Transfer style.css">
     <link rel="stylesheet" href="../css/chart styles/export chart.css">
     <link rel="stylesheet" href="../css/chart styles/bootstrap.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <style>
-            * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: #f5f7fa;
-        color: #333;
-        line-height: 1.6;
-        min-height: 100vh;
-    }
-
-    .container {
-        max-width: calc(100% - 380px);
-        /* 340px left margin + 20px right margin + sidebar width */
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .container-wrapper {
-        margin: 20px;
-    }
-
-    .header {
-        background: #fff;
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #e1e8ed;
-    }
-
-    .breadcrumb {
-        font-size: 12px;
-        color: #657786;
-        margin-bottom: 5px;
-    }
-
-    .title {
-        font-size: 24px;
-        font-weight: 700;
-        color: #1a1a1a;
-    }
-
-    .form-container {
-        padding: 20px;
-    }
-
-    .section {
-        margin-bottom: 20px;
-    }
-
-    .section-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #537faa;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .form-group {
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
-    }
-
-    .form-select {
-        padding: 10px;
-        border: 1px solid #537faa;
-        border-radius: 4px;
-        background-color: #fff;
-        font-size: 14px;
-        min-width: 120px;
-    }
-
-    .form-row {
-        display: flex;
-        gap: 10px;
-        width: 100%;
-    }
-
-    .form-label {
-        display: block;
-        font-size: 12px;
-        font-weight: 600;
-        color: #555;
-        margin-bottom: 5px;
-    }
-
-    .form-label.required::after {
-        content: ' *';
-        color: #e0245e;
-    }
-
-    .form-input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #537faa;
-        border-radius: 4px;
-        font-size: 14px;
-        background: #fff;
-    }
-
-    .form-input:focus {
-        outline: none;
-        border-color: #537faa;
-        box-shadow: 0 0 0 2px rgba(83, 127, 170, 0.2);
-    }
-
-    .form-select:focus {
-        outline: none;
-        border-color: #537faa;
-        box-shadow: 0 0 0 2px rgba(83, 127, 170, 0.2);
-    }
-
-    .account-info {
-        background: #f8f9fa;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 10px;
-        border-left: 3px solid #537faa;
-    }
-
-    .account-number {
-        font-size: 14px;
-        font-weight: 600;
-        color: #1a1a1a;
-        margin-bottom: 5px;
-    }
-
-    .account-balance {
-        font-size: 12px;
-        color: #537faa;
-        font-weight: 600;
-    }
-
-    .buttons {
-        display: flex;
-        gap: 20px;
-        justify-content: flex-end;
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px solid #537faa;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        color: #1a1a1a;
-    }
-
-    .btn-secondary {
-        background: #f8f9fa;
-        border: 1px solid #537faa;
-        color: #537faa;
-    }
-
-    .btn-primary {
-        background: #537faa;
-        color: white;
-    }
-
-    .help-text {
-        font-size: 10px;
-        color: #657786;
-        margin-top: 5px;
-        flex-basis: 100%;
-    }
-
-    .form-group-with-help {
-        flex-direction: column;
-    }
-
-    @media (max-width: 600px) {
-        .container {
-            max-width: calc(100% - 20px);
-        }
-
-        .container-wrapper {
-            margin: 10px;
-        }
-
-        .buttons {
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .form-group {
-            flex-direction: column;
-        }
-
-        .form-row {
-            flex-direction: column;
-        }
-    }
-    </style>
 </head>
 
 <body class="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
@@ -300,7 +57,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <a href="#" class="dropdown-item">Predição</a>
-                    <a href="#" class="dropdown-item">Saldo e transações</a>
+                
                     <a href="#" class="dropdown-item">Histórico de Predições</a>
                 </div>
             </div>
@@ -312,7 +69,7 @@
                     </svg>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Relatório de finança</a>
+                    <a href="Financial report.html" class="dropdown-item">Relatório de finança</a>
                     <a href="Export report.html" class="dropdown-item">Relatório de exportação</a>
                     <a href="#" class="dropdown-item">Histórico de Relatórios</a>
                 </div>
@@ -540,83 +297,7 @@
 
     </div>
     <script src="../js/efect load.js"></script>
-    <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-            return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-                try {
-                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                    var firstSheetName = workbook.SheetNames[0];
-                    var worksheet = workbook.Sheets[firstSheetName];
-
-                    // Convert sheet to JSON to filter blank rows
-                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                    // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                    var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                    // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                    var headerRowIndex = filteredData.findIndex((row, index) =>
-                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                    );
-                    // Fallback
-                    if (headerRowIndex === -1 || headerRowIndex > 25) {
-                        headerRowIndex = 0;
-                    }
-
-                    // Convert filtered JSON back to CSV
-                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                    return csv;
-                } catch (e) {
-                    console.error(e);
-                    return "";
-                }
-            }
-            return gk_fileData[filename] || "";
-        }
-
-        function toggleDropdown(button) {
-            const dropdown = button.parentElement;
-            const isOpen = dropdown.classList.contains('open');
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-            if (!isOpen) {
-                dropdown.classList.add('open');
-            }
-        }
-
-        document.addEventListener('click', function (event) {
-            if (!event.target.closest('.dropdown')) {
-                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-            }
-        });
-
-        function toggleUserInfo() {
-            const userInfoPanel = document.getElementById('userInfoPanel');
-            userInfoPanel.classList.toggle('open');
-        }
-
-        document.addEventListener('click', function (event) {
-            const profileSection = document.querySelector('.profile-section');
-            const userInfoPanel = document.getElementById('userInfoPanel');
-            if (!profileSection.contains(event.target) && !userInfoPanel.contains(event.target)) {
-                userInfoPanel.classList.remove('open');
-            }
-        });
-
-        function toggleTheme(theme) {
-            document.body.className = 'flex flex-col lg:flex-row min-h-screen';
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-        }
-    </script>
+    <script src="../js/page scroll.js" type="text/javascript"></script>
 </body>
 
 </html>

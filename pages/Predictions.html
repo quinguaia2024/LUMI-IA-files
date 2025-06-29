@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumi IA</title>
+    <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/Dashboard style/dash_style.css">
+    <link rel="stylesheet" href="../css/chart styles/export chart.css">
+    <link rel="stylesheet" href="../css/chart styles/bootstrap.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/plugins/exporting.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+
+
+    <script src="Mexendo em mudanças/Mudanças8.js"></script>
+    <script src="Mexendo em mudanças/Mudanças9.js"></script>
+    <script src="Mexendo em mudanças/Mudanças10.js"></script>
+    <link rel="stylesheet" href="Mexendo em mudanças/style.css">
+    <link rel="stylesheet" href="../css/Dashboard style/dash_style.css">
+    <link rel="stylesheet" href="../css/Transfer style/Transfer style.css">
+
+</head>
+
+<body class="flex flex-col lg:flex-row bg-gray-100 min-h-screen">
+    <div class="preloader"></div>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar w-80 h-screen fixed top-0 left-0 p-6 z-40">
+        <div class="logo-div"><img src="../images/icon/icon.jpg" class="mb-4"></div>
+        <nav class="sidebar-nav space-y-3">
+            <a href="dashboard.html" class="menu-item">Lumi IA</a>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Contas</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="analise IA.html" class="dropdown-item">Análise financeira</a>
+                    <a href="#" class="dropdown-item">Gestão de usuários</a>
+                    <a href="#" class="dropdown-item">Definições e preferências</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Transferências</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="National transfer.html" class="dropdown-item">Nacional</a>
+                    <a href="Internacional transfer.html" class="dropdown-item">Internacional</a>
+                    <a href="Transfer history.html" class="dropdown-item">Histórico de transferências</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Transações</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Predição</a>
+
+                    <a href="#" class="dropdown-item">Histórico de Predições</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                    <span>Relatórios</span>
+                    <svg class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="Financial report.html" class="dropdown-item">Relatório de finança</a>
+                    <a href="Export report.html" class="dropdown-item">Relatório de exportação</a>
+                    <a href="#" class="dropdown-item">Histórico de Relatórios</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6">
+                <h3 class="text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wider">Outras informações</h3>
+                <a href="/contacts" class="menu-item">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Contactos</span>
+                    </div>
+                </a>
+                <a href="/exchange" class="menu-item">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        <span>Câmbio</span>
+                    </div>
+                </a>
+                <a href="/locations" class="menu-item">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Onde estamos</span>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="main-content lg:ml-80 min-h-screen">
+        <!-- Top Navigation Bar -->
+        <header class="bg-white shadow-lg p-4 sticky top-0 z-30">
+            <div class="header-nav flex items-center justify-end gap-3">
+                <div class="search-container flex-1 max-w-md">
+                    <input type="text" placeholder="Pesquisar" class="search-input">
+                    <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <button class="btn-secondary p-2 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+                <div class="profile-section" onclick="toggleUserInfo()">
+                    <img src="../images/images profille/Profille.jpg" alt="Profile" class="profile-avatar">
+                    <div class="hidden sm:block">
+                        <div class="text-sm font-medium text-gray-700 dark:text-gray-200">Ludovina Quinguaia</div>
+                    </div>
+                </div>
+                <select class="btn-secondary p-2 flex items-center justify-center" onchange="toggleTheme(this.value)">
+                    <option value="light">Claro</option>
+                    <option value="dark">Escuro</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- User Info Panel -->
+        <div class="user-info-panel" id="userInfoPanel">
+            <div class="profile-header">
+                <img src="../images/images profille/Profille.jpg" alt="Profile">
+                <div>
+                    <h2>Ludovina Quinguaia</h2>
+                    <a href="#">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        O Meu Perfil
+                    </a>
+                </div>
+            </div>
+            <div class="profile-details">
+                <div>1776316</div>
+                <div>Adesão Simples</div>
+                <button class="settings">Definições</button>
+            </div>
+            <div class="profile-actions">
+                <button class="validate">Entrar com Outra Adesão</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-wrapper">
+            <div class="container">
+                <div class="header">
+                    <div class="breadcrumb">User</div>
+                    <h1 class="title">Gestão de usuários</h1>
+                </div>
+                <div id="chartdiv2"></div>
+            </div>
+        </div>
+        <div class="container" style="background-color: #f1f1f1;">
+            <div class="first-row">
+                <div class="card p-6 fade-in-up" style="padding: 24px;">
+                    <div id="chartdiv7"></div>
+
+                </div>
+                <div class="card p-6 fade-in-up" style="padding: 24px;">
+                    <h3 style="font-size: 1.125rem; font-weight: 700; color: #1f2937; margin-bottom: 16px;">Enviar
+                        NaHora</h3>
+                    <div id="chartdiv6"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </form>
+    </div>
+
+
+    </div>
+    <script src="../js/efect load.js"></script>
+    <script src="../js/page scroll.js" type="text/javascript"></script>
+</body>
+
+</html>
