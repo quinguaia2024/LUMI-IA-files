@@ -2,8 +2,8 @@ am5.ready(function() {
 
 // Create root element
 // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv2");
-
+var root = am5.Root.new("chartdiv8");
+root._logo.dispose();
 // Set themes
 // https://www.amcharts.com/docs/v5/concepts/themes/
 root.setThemes([
@@ -22,14 +22,6 @@ var chart = root.container.children.push(
   })
 );
 
-// Chart title
-var title = chart.plotContainer.children.push(am5.Label.new(root, {
-  text: "Price (BTC/ETH)",
-  fontSize: 20,
-  fontWeight: "400",
-  x: am5.p50,
-  centerX: am5.p50
-}))
 
 // Create axes
 // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
@@ -68,7 +60,7 @@ var bidsTotalVolume = chart.series.push(am5xy.StepLineSeries.new(root, {
   fill: am5.color(0x00ff00),
   tooltip: am5.Tooltip.new(root, {
     pointerOrientation: "horizontal",
-    labelText: "[width: 120px]Ask:[/][bold]{categoryX}[/]\n[width: 120px]Total volume:[/][bold]{valueY}[/]\n[width: 120px]Volume:[/][bold]{bidsvolume}[/]"
+   labelText: "[width: 120px]Score IA:[/][bold]{categoryX}[/]\n[width: 120px]Quantidade de Transações Fraudadas:[/][bold]{valueY}[/]\n[width: 120px]Volume de Fraudes:[/][bold]{bidsvolume}[/]"
   })
 }));
 bidsTotalVolume.strokes.template.set("strokeWidth", 2)
@@ -87,7 +79,7 @@ var asksTotalVolume = chart.series.push(am5xy.StepLineSeries.new(root, {
   fill: am5.color(0xff0000),
   tooltip: am5.Tooltip.new(root, {
     pointerOrientation: "horizontal",
-    labelText: "[width: 120px]Ask:[/][bold]{categoryX}[/]\n[width: 120px]Total volume:[/][bold]{valueY}[/]\n[width: 120px]Volume:[/][bold]{asksvolume}[/]"
+     labelText: "[width: 120px]Score IA:[/][bold]{categoryX}[/]\n[width: 120px]Quantidade de Transações Fraudadas:[/][bold]{valueY}[/]\n[width: 120px]Volume de Fraudes:[/][bold]{asksvolume}[/]"
   })
 }));
 asksTotalVolume.strokes.template.set("strokeWidth", 2)

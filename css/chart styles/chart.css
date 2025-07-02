@@ -1,14 +1,19 @@
-
 .body-bg {
-  background: #F3F4FA !important;
+  background: #f8fafc !important;
 }
 
-h1, h2, h3, h4, h5, h6, strong {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
   font-weight: 600;
 }
 
 .box .apexcharts-xaxistooltip {
-  background: #8eb0cd58;
+  background: #F3F4FA;
   color: #fff;
 }
 
@@ -18,14 +23,24 @@ h1, h2, h3, h4, h5, h6, strong {
 }
 
 .box {
-  background-color:#8eb0cd58;
-  padding: 25px 25px;
-  border-radius: 4px;
-}  
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.2s;
+  font-size: 0.75rem;
+}
+.box:hover {
+            background: #f1f4f5;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
 
 .columnbox {
   padding-right: 15px;
 }
+
 .radialbox {
   max-height: 333px;
   margin-bottom: 60px;

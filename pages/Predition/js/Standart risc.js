@@ -1,15 +1,10 @@
 am5.ready(function() {
 
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv6");
+var root = am5.Root.new("chartdiv10");
+root._logo.dispose();
 
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
 root.setThemes([am5themes_Animated.new(root)]);
 
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/radar-chart/
 var chart = root.container.children.push(
   am5radar.RadarChart.new(root, {
     panX: false,
@@ -20,25 +15,18 @@ var chart = root.container.children.push(
   })
 );
 
-chart.get("colors").set("step", 2);
-
-// Add cursor
-// https://www.amcharts.com/docs/v5/charts/radar-chart/#Cursor
 var cursor = chart.set("cursor",
 am5radar.RadarCursor.new(root, {
   behavior: "zoomX"
 }));
-
 cursor.lineY.set("visible", false);
 
-// Create axes and their renderers
-// https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_axes
 var yRenderer = am5radar.AxisRendererRadial.new(root, { minGridDistance: 20 });
 
 var yAxis = chart.yAxes.push(
   am5xy.CategoryAxis.new(root, {
     maxDeviation: 0,
-    categoryField: "category",
+    categoryField: "criterio",
     renderer: yRenderer
   })
 );
@@ -48,67 +36,66 @@ var xAxis = chart.xAxes.push(
     min: new Date("2021-01-01 00:00:00").getTime(),
     max: new Date("2022-01-01 00:00:00").getTime(),
     baseInterval: { timeUnit: "day", count: 1 },
-    renderer: am5radar.AxisRendererCircular.new(root, {})
+    renderer: am5radar.AxisRendererCircular.new(root, {}),
+    tooltip: am5.Tooltip.new(root, {
+      labelText: "Período de Análise: {valueX.formatDate('yyyy-MM-dd')}"
+    })
   })
 );
 
 var data = [
   {
-    category: "One",
+    criterio: "Faixa de Valor",
     startDate1: new Date("2021-01-01").getTime(),
     endDate1: new Date("2021-03-01").getTime()
   },
   {
-    category: "One",
+    criterio: "Faixa de Valor",
     startDate1: new Date("2021-04-01").getTime(),
     endDate1: new Date("2021-08-15").getTime()
   },
   {
-    category: "Two",
+    criterio: "Hora",
     startDate2: new Date("2021-03-01").getTime(),
     endDate2: new Date("2021-06-01").getTime()
   },
   {
-    category: "Two",
+    criterio: "Hora",
     startDate2: new Date("2021-08-01").getTime(),
     endDate2: new Date("2021-10-01").getTime()
   },
   {
-    category: "Three",
+    criterio: "Tipo",
     startDate3: new Date("2021-02-01").getTime(),
     endDate3: new Date("2021-07-01").getTime()
   },
   {
-    category: "Four",
+    criterio: "Moeda",
     startDate4: new Date("2021-06-09").getTime(),
     endDate4: new Date("2021-09-01").getTime()
   },
   {
-    category: "Four",
+    criterio: "Moeda",
     startDate4: new Date("2021-10-01").getTime(),
     endDate4: new Date("2021-12-15").getTime()
   },
   {
-    category: "Five",
+    criterio: "Score IA",
     startDate5: new Date("2021-02-01").getTime(),
     endDate5: new Date("2021-04-15").getTime()
   },
   {
-    category: "Five",
+    criterio: "Score IA",
     startDate5: new Date("2021-10-01").getTime(),
     endDate5: new Date("2021-12-31").getTime()
   }
 ];
 
-// Set date fields
-// https://www.amcharts.com/docs/v5/concepts/data/#Parsing_dates
 root.dateFormatter.setAll({
   dateFormat: "yyyy-MM-dd",
   dateFields: ["valueX", "openValueX"]
 });
 
-// Create series
-// https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_series
 for (var i = 1; i < 6; i++) {
   var series = chart.series.push(
     am5radar.RadarColumnSeries.new(root, {
@@ -116,7 +103,7 @@ for (var i = 1; i < 6; i++) {
       name: "Series",
       xAxis: xAxis,
       yAxis: yAxis,
-      categoryYField: "category",
+      categoryYField: "criterio",
       valueXField: "endDate" + i,
       openValueXField: "startDate" + i
     })
@@ -125,20 +112,19 @@ for (var i = 1; i < 6; i++) {
   series.columns.template.set("cornerRadius", 25);
   series.columns.template.set(
     "tooltipText",
-    "{category}: {openValueX} - {valueX}"
+    "{criterio}: {openValueX.formatDate('yyyy-MM-dd')} - {valueX.formatDate('yyyy-MM-dd')}"
   );
 
   series.data.setAll(data);
   series.appear(2000, 100);
-  series.data.setAll(data);
 }
 
 yAxis.data.setAll([
-  { category: "One" },
-  { category: "Two" },
-  { category: "Three" },
-  { category: "Four" },
-  { category: "Five" }
+  { criterio: "Faixa de Valor" },
+  { criterio: "Hora" },
+  { criterio: "Tipo" },
+  { criterio: "Moeda" },
+  { criterio: "Score IA" }
 ]);
 
 chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal", exportable: false }));
@@ -146,8 +132,6 @@ chart.set("scrollbarY", am5.Scrollbar.new(root, { orientation: "vertical", expor
 
 xAxis.data.setAll(data);
 
-// Animate chart and series in
-// https://www.amcharts.com/docs/v5/concepts/animations/#Initial_animation
 chart.appear(2000, 100);
 
-}); // end am5.ready()
+});

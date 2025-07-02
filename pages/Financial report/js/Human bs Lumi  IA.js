@@ -1,24 +1,14 @@
-
-
 am5.ready(function() {
 
-
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv3");
+  
+var root = am5.Root.new("chartdiv4");
 // Remove amCharts watermark/logo
 root._logo.dispose();
 
-
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
 root.setThemes([
   am5themes_Animated.new(root)
 ]);
 
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
 var chart = root.container.children.push(am5xy.XYChart.new(root, {
   panX: true,
   panY: true,
@@ -57,9 +47,6 @@ function generateDatas(count) {
   return data;
 }
 
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
 var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
   baseInterval: {
     timeUnit: "day",
@@ -76,8 +63,6 @@ var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
 }));
 
 
-// Add series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
 var series = chart.series.push(am5xy.LineSeries.new(root, {
   name: "Series",
   xAxis: xAxis,

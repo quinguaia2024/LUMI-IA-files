@@ -1,14 +1,9 @@
 am5.ready(function() {
 
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv7");
+var root = am5.Root.new("chartdiv2");
 
-// Remove amCharts watermark/logo
 root._logo.dispose();
 
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
 root.setThemes([am5themes_Animated.new(root)]);
 
 var container = root.container.children.push(
@@ -19,16 +14,14 @@ var container = root.container.children.push(
   })
 );
 
-// Create main chart
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+
 var chart = container.children.push(
   am5percent.PieChart.new(root, {
     tooltip: am5.Tooltip.new(root, {})
   })
 );
 
-// Create series
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+
 var series = chart.series.push(
   am5percent.PieSeries.new(root, {
     valueField: "value",
@@ -49,8 +42,6 @@ series.slices.template.events.on("click", function(e) {
   selectSlice(e.target);
 });
 
-// Create sub chart
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
 var subChart = container.children.push(
   am5percent.PieChart.new(root, {
     radius: am5.percent(50),
@@ -68,13 +59,9 @@ var subSeries = subChart.series.push(
 );
 
 subSeries.data.setAll([
-  { category: "A", value: 0 },
-  { category: "B", value: 0 },
-  { category: "C", value: 0 },
-  { category: "D", value: 0 },
-  { category: "E", value: 0 },
-  { category: "F", value: 0 },
-  { category: "G", value: 0 }
+ { category: "Alto Risco", value: 0 },
+  { category: "Médio Risco", value: 0 },
+  { category: "Baixo Risco", value: 0 }
 ]);
 subSeries.slices.template.set("toggleKey", "none");
 
@@ -140,58 +127,49 @@ var line1 = container.children.push(
 // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
 series.data.setAll([
   {
-    category: "Lithuania",
-    value: 500,
+    category: "Cash",
+    value: 400,
     subData: [
-      { category: "A", value: 200 },
-      { category: "B", value: 150 },
-      { category: "C", value: 100 },
-      { category: "D", value: 100 }
+  { category: "Alto Risco", value: 200 },
+      { category: "Médio Risco", value: 150 },
+      { category: "Baixo Risco", value: 150 }
     ]
   },
   {
-    category: "Czechia",
+    category: "Transferências",
     value: 300,
     subData: [
       { category: "A", value: 150 }
     ]
   },
   {
-    category: "Ireland",
+    category: "Depósitos",
     value: 200,
     subData: [
-      { category: "A", value: 110 },
-      { category: "B", value: 60 },
-      { category: "C", value: 30 }
+    { category: "Alto Risco", value: 110 },
+      { category: "Médio Risco", value: 60 },
+      { category: "Baixo Risco", value: 30 }
     ]
   },
   {
-    category: "Germany",
+    category: "Pagamentos",
     value: 150,
     subData: [
-      { category: "A", value: 80 },
-      { category: "B", value: 40 },
-      { category: "C", value: 30 }
+       { category: "Alto Risco", value: 60 },
+      { category: "Médio Risco", value: 30 },
+      { category: "Baixo Risco", value: 30 }
     ]
   },
   {
-    category: "Australia",
-    value: 140,
+    category: "Suspeitas",
+    value: 240,
     subData: [
-      { category: "A", value: 90 },
-      { category: "B", value: 40 },
-      { category: "C", value: 10 }
+       { category: "Alto Risco", value: 60 },
+      { category: "Médio Risco", value: 30 },
+      { category: "Baixo Risco", value: 30 }
     ]
   },
-  {
-    category: "Austria",
-    value: 120,
-    subData: [
-      { category: "A", value: 60 },
-      { category: "B", value: 30 },
-      { category: "C", value: 30 }
-    ]
-  }
+
 ]);
 
 function selectSlice(slice) {

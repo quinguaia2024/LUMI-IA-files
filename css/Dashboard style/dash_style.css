@@ -46,7 +46,7 @@
             width: 100%;
             padding: 12px 16px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid #ffffff33;
             border-radius: 8px;
             color: white;
             text-decoration: none;
@@ -59,7 +59,7 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: #ffffff4d;
         }
 
         .dropdown-arrow {

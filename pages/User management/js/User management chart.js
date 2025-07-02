@@ -2,7 +2,7 @@ am5.ready(function() {
 
 // Create root element
 // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv6");
+var root = am5.Root.new("chartdiv1");
 // Remove amCharts watermark/logo
 root._logo.dispose();
 
@@ -17,42 +17,42 @@ var data = [
     name: "Monica",
     steps: 45688,
     pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/monica.jpg"
+      src: "../../../images/faces/face7.jpg"
     }
   },
   {
     name: "Joey",
     steps: 35781,
     pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/joey.jpg"
+      src: "../../../images/faces/face13.jpg"
     }
   },
   {
     name: "Ross",
     steps: 25464,
     pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/ross.jpg"
+      src: "../../../images/faces/face17.jpg"
     }
   },
   {
     name: "Phoebe",
     steps: 18788,
     pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/phoebe.jpg"
+      src: "../../../images/faces/face14.jpg"
     }
   },
   {
     name: "Rachel",
     steps: 15465,
     pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/rachel.jpg"
+      src: "../../../images/faces/face15.jpg"
     }
   },
   {
     name: "Chandler",
     steps: 11561,
     pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/chandler.jpg"
+      src: "../../../images/faces/face25.jpg"
     }
   }
 ];
