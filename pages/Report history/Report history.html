@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumi IA</title>
-    <link rel="shortcut icon" href="../images/icon/icon.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../../images/icon/icon.jpg" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../css/Dashboard style/dash_style.css">
-    <link rel="stylesheet" href="../css/chart styles/export chart.css">
-    <link rel="stylesheet" href="../css/chart styles/bootstrap.css">
+    <link rel="stylesheet" href="../../css/Dashboard style/dash_style.css">
+    <link rel="stylesheet" href="../../css/chart styles/export chart.css">
+    <link rel="stylesheet" href="../../css/chart styles/bootstrap.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
@@ -17,7 +17,7 @@
     <div class="preloader"></div>
     <!-- Sidebar -->
     <aside id="sidebar" class="sidebar w-80 h-screen fixed top-0 left-0 p-6 z-40">
-        <div class="logo-div"><img src="../images/icon/icon.jpg" class="mb-4"></div>
+        <div class="logo-div"><img src="../../images/icon/icon.jpg" class="mb-4"></div>
         <nav class="sidebar-nav space-y-3">
             <a href="../dashboard.html" class="menu-item">Lumi IA</a>
             <div class="dropdown">
@@ -164,84 +164,8 @@
         <!-- Main Content -->
 
     </div>
-    <script src="../js/efect load.js"></script>
-    <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-            return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-                try {
-                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                    var firstSheetName = workbook.SheetNames[0];
-                    var worksheet = workbook.Sheets[firstSheetName];
-
-                    // Convert sheet to JSON to filter blank rows
-                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                    // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                    var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                    // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                    var headerRowIndex = filteredData.findIndex((row, index) =>
-                        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                    );
-                    // Fallback
-                    if (headerRowIndex === -1 || headerRowIndex > 25) {
-                        headerRowIndex = 0;
-                    }
-
-                    // Convert filtered JSON back to CSV
-                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                    return csv;
-                } catch (e) {
-                    console.error(e);
-                    return "";
-                }
-            }
-            return gk_fileData[filename] || "";
-        }
-
-        function toggleDropdown(button) {
-            const dropdown = button.parentElement;
-            const isOpen = dropdown.classList.contains('open');
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-            if (!isOpen) {
-                dropdown.classList.add('open');
-            }
-        }
-
-        document.addEventListener('click', function (event) {
-            if (!event.target.closest('.dropdown')) {
-                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-            }
-        });
-
-        function toggleUserInfo() {
-            const userInfoPanel = document.getElementById('userInfoPanel');
-            userInfoPanel.classList.toggle('open');
-        }
-
-        document.addEventListener('click', function (event) {
-            const profileSection = document.querySelector('.profile-section');
-            const userInfoPanel = document.getElementById('userInfoPanel');
-            if (!profileSection.contains(event.target) && !userInfoPanel.contains(event.target)) {
-                userInfoPanel.classList.remove('open');
-            }
-        });
-
-        function toggleTheme(theme) {
-            document.body.className = 'flex flex-col lg:flex-row min-h-screen';
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-        }
-    </script>
+    <script src="../../js/efect load.js"></script>
+    
 </body>
 
 </html>
